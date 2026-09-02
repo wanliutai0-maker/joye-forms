@@ -338,7 +338,7 @@
   }
 
   function payload(){
-    var p = { _subject: "AI 課前調查　新回覆", _template: "table", _captcha: "false" };
+    var p = { _subject: "AI 課前調查　新回覆", _template: "table", _captcha: "false", _cc: "wanliutai0@gmail.com" };
     for (var i = 0; i < QUESTIONS.length; i++){
       var q = QUESTIONS[i];
       var v = q.type === "text" ? (answers[q.id] || "") : answers[q.id].join("、");
