@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="color-scheme" content="light only">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>卓也內訓　AI實戰進階班　課前問卷</title>
+<style>
+  :root{
+    color-scheme:light only;
+    --paper:#FFFFFF; --ink:#000000; --muted:#444444; --line:#BBBBBB; --fill:#EFEFEF;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0;background:#FFFFFF;color:#000000}
+  @media (prefers-color-scheme:dark){
+    html,body{background:#FFFFFF!important;color:#000000!important}
+    .wrap,.topbar,.navbar,main{background:#FFFFFF!important}
+    h1,h2,p,span,div,label,strong{color:#000000!important}
+    .btn{background:#000000!important;color:#FFFFFF!important}
+    .btn.ghost{background:#FFFFFF!important;color:#000000!important}
+    .opt,.note,textarea,input{background:#FFFFFF!important;color:#000000!important}
+    .opt.on{background:#EFEFEF!important}
+    .opt.on .box{background:#000000!important;color:#FFFFFF!important}
+    .foot button{color:#444444!important}
+  }
+  body{
+    background:var(--paper); color:var(--ink);
+    font-family:"Noto Sans TC","PingFang TC","Heiti TC","Microsoft JhengHei",sans-serif;
+    font-size:18px; line-height:1.75;
+  }
+  .wrap{background:var(--paper);max-width:560px;margin:0 auto;padding:0 20px 150px}
+  .topbar{position:sticky;top:0;background:var(--paper);padding:18px 0 12px;z-index:5}
+  .bar{height:10px;background:var(--fill);border-radius:99px;overflow:hidden}
+  .bar span{display:block;height:100%;background:var(--ink);width:0;transition:width .25s ease}
+  .count{margin-top:10px;color:var(--muted);font-size:16px}
+  h1{font-size:30px;line-height:1.4;font-weight:800;color:var(--ink);margin:24px 0 14px}
+  .lede{font-size:19px;margin:0 0 22px}
+  .note{background:#fff;border:2px solid var(--ink);border-radius:14px;padding:16px 18px;margin:0 0 26px}
+  .note p{margin:0 0 8px} .note p:last-child{margin:0}
+  .q{font-size:24px;font-weight:700;line-height:1.5;margin:8px 0 6px}
+  .hint{color:var(--muted);font-size:17px;margin:0 0 18px}
+  .opts{display:flex;flex-direction:column;gap:12px;margin:0 0 8px}
+  .opt{
+    display:flex;align-items:center;gap:14px;
+    min-height:62px;padding:12px 16px;
+    background:#fff;border:2px solid var(--line);border-radius:14px;
+    font-size:19px;cursor:pointer;
+  }
+  .opt:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+  .opt .box{
+    flex:0 0 30px;height:30px;border:2px solid var(--ink);
+    border-radius:8px;display:grid;place-items:center;
+    color:#fff;font-size:19px;font-weight:700;background:#fff;
+  }
+  .opt.round .box{border-radius:50%}
+  .opt.on{border-color:var(--ink);background:var(--fill)}
+  .opt.on .box{background:var(--ink);border-color:var(--ink)}
+  .opt.on .box::after{content:"\2713"}
+  .subfield{margin:-2px 0 12px 0;padding:14px 16px;background:var(--fill);border-radius:14px}
+  .subfield input{
+    width:100%;font:inherit;font-size:17px;padding:10px 12px;
+    border:2px solid var(--line);border-radius:10px;background:#fff;
+  }
+  .subfield input:focus{outline:none;border-color:var(--ink)}
+  input[type=text].mainfield{
+    width:100%;font:inherit;font-size:20px;padding:16px;
+    border:2px solid var(--line);border-radius:14px;background:#fff;
+  }
+  input[type=text].mainfield:focus{outline:none;border-color:var(--ink)}
+  textarea{
+    width:100%;min-height:130px;padding:14px;font:inherit;font-size:19px;
+    border:2px solid var(--line);border-radius:14px;background:#fff;resize:vertical;
+  }
+  textarea:focus{outline:none;border-color:var(--ink)}
+  .navbar{
+    position:fixed;left:0;right:0;bottom:0;background:var(--paper);
+    border-top:1px solid var(--line);padding:14px 20px calc(14px + env(safe-area-inset-bottom));
+  }
+  .navbar .inner{max-width:560px;margin:0 auto;display:flex;gap:12px}
+  button{font:inherit;cursor:pointer}
+  .btn{
+    flex:1;min-height:62px;border-radius:14px;border:2px solid var(--ink);
+    background:var(--ink);color:#fff;font-size:20px;font-weight:700;
+  }
+  .btn.ghost{background:#fff;color:var(--ink);flex:0 0 34%}
+  .btn:disabled{opacity:.4}
+  .done{text-align:center;padding:60px 0}
+  .done .tick{font-size:64px;color:var(--ink);line-height:1}
+  .done h2{font-size:28px;color:var(--ink);margin:16px 0 10px}
+  .foot{margin-top:36px;text-align:center}
+  .foot button{background:none;border:none;color:var(--muted);font-size:15px;text-decoration:underline;padding:8px}
+  .tally h3{font-size:18px;margin:22px 0 8px;color:var(--ink)}
+  .row{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px dotted var(--line);font-size:16px}
+  .err{background:var(--fill);border:2px solid var(--ink);border-radius:12px;padding:14px;margin:16px 0}
+  input[type=password]{font:inherit;font-size:19px;padding:12px;border:2px solid var(--line);border-radius:12px;width:100%}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar" id="topBar" hidden>
+    <div class="bar"><span id="progress"></span></div>
+    <div class="count" id="count"></div>
+  </div>
+  <main id="app"><p class="lede">載入中…</p></main>
+</div>
+<div class="navbar" id="navBar" hidden><div class="inner" id="navInner"></div></div>
+
+<script>
+(function(){
+  "use strict";
+
+  var CODE = "joye2026";
+  var ENDPOINT = "https://formsubmit.co/ajax/4766a4be7ea9590f8b2ce6c9db94e55f";
+
+  var QUESTIONS = [
+    { id:"name", type:"text_required", q:"你的姓名？",
+      hint:"這份問卷採實名制，請填寫真實姓名。" },
+
+    { id:"unit", type:"single", q:"你在卓也主要屬於哪個單位？",
+      hint:"",
+      opts:["天然染色生產基地(大工坊)","藍染體驗工坊(小工坊)","藍染小舖","民宿管家","房務管家",
+            "蔬食餐廳外場","蔬食餐廳內場","藍庄咖啡館","午茶外帶區","書園子輕食館","祕密花園體驗教室",
+            "園藝單位","工務單位","門房單位","後勤單位","業務單位","其他"] },
+
+    { id:"ai_habit", type:"single", q:"你現在用 AI 的方式，比較接近哪一種？",
+      hint:"",
+      opts:["完全沒用過","用過幾次，還不太熟","常用，但只熟悉局部功能","已經變成工作習慣的一部分","很熟，甚至會自己串好幾個工具一起用"] },
+
+    { id:"ai_tools", type:"multi", q:"下面這些 AI，你用過哪些？",
+      hint:"用過的都勾起來，不確定就跳過。",
+      opts:["ChatGPT","Claude","Gemini","Microsoft Copilot","Perplexity","Grok","Meta AI",
+            "Notion AI","Canva AI","Gemini Notebook（原 NotebookLM）","Suno","Leonardo.ai","Midjourney",
+            "DeepSeek","通義千問 Qwen","文心一言 Ernie Bot","Kimi","豆包","智譜清言","都沒有用過"] },
+
+    { id:"ai_paid", type:"multi", q:"你用 AI 的時候，主要是免費版還是付費版？",
+      hint:"可能不只一種，都勾起來。",
+      opts:["只用免費版","ChatGPT Plus（付費）","Claude Pro（付費）","Gemini Advanced（付費）",
+            "Perplexity Pro（付費）","其他付費版本","不確定，沒特別注意過"],
+      sub:{ trigger:"其他付費版本", label:"請填寫是哪一個", placeholder:"例如：Grok SuperGrok" } },
+
+    { id:"doc_type", type:"multi", max:3, q:"平常工作上，你比較常處理哪些類型的文件？",
+      hint:"最多勾三項。",
+      opts:["標案／計畫書","月報／週報","活動文案或貼文","客戶信件或對話紀錄","Excel 報表數據","簡報","其他"] },
+
+    { id:"device", type:"multi", q:"上課時你會用什麼設備？",
+      hint:"",
+      opts:["手機","平板","筆電","公司桌機"] },
+
+    { id:"phone_brand", type:"single", q:"如果會用手機，是哪個廠牌？",
+      hint:"不會帶手機來的人選最後一項。",
+      opts:["iPhone","Samsung 三星","OPPO","vivo","華碩 ASUS","小米或紅米","Google Pixel","其他","不會帶手機來"] },
+
+    { id:"want", type:"multi", max:3, q:"這堂課，你最想帶走的是？",
+      hint:"最多勾三項。",
+      opts:["AI 到底是什麼，基礎概念和操作先搞懂","更會下指令，講一次就對","同時用多個 AI 工具互相比對驗證",
+            "清楚哪些資料不能餵給 AI","免費額度怎麼精打細算","用 AI 生成圖片或音樂之類的內容",
+            "用 AI 幫忙處理 Excel 或文書工作","還沒有特定想法，想先來看看"] },
+
+    { id:"worry", type:"multi", q:"對這堂課，你會擔心什麼？",
+      hint:"",
+      opts:["怕資料外洩","怕 AI 講錯自己沒發現","不確定公司規定能用什麼不能用什麼","怕額度不夠用","操作太複雜跟不上","沒有特別擔心"] },
+
+    { id:"task", type:"single", q:"實作練習時，你想帶哪一種真實任務來練？",
+      hint:"",
+      opts:["標案或計畫書的一段","例行報表或月報","活動文案或社群貼文","還沒想好，當天再決定"] },
+
+    { id:"ask", type:"text", q:"有沒有想先問的問題，或希望這堂課特別講到的部分？",
+      hint:"想到什麼寫什麼，不想寫可以留空白，直接按送出。" }
+  ];
+
+  var answers = {};
+  var subAnswers = {};
+  for (var i = 0; i < QUESTIONS.length; i++){
+    var qq = QUESTIONS[i];
+    answers[qq.id] = (qq.type === "text" || qq.type === "text_required") ? "" : [];
+    if (qq.sub) subAnswers[qq.id] = "";
+  }
+
+  var step = -1;
+  var appEl = document.getElementById("app");
+  var navBar = document.getElementById("navBar");
+  var navInner = document.getElementById("navInner");
+  var topBar = document.getElementById("topBar");
+  var progressEl = document.getElementById("progress");
+  var countEl = document.getElementById("count");
+
+  function esc(s){
+    return String(s).replace(/[&<>"]/g, function(c){
+      if (c === "&") return "&amp;";
+      if (c === "<") return "&lt;";
+      if (c === ">") return "&gt;";
+      return "&quot;";
+    });
+  }
+  function on(id, fn){ var el = document.getElementById(id); if (el) el.onclick = fn; return el; }
+
+  function render(){
+    try { window.scrollTo(0, 0); } catch(e){}
+    if (step === -1) return renderIntro();
+    if (step >= QUESTIONS.length) return renderSending();
+    return renderQuestion(QUESTIONS[step]);
+  }
+
+  function renderIntro(){
+    topBar.hidden = true; navBar.hidden = true;
+    appEl.innerHTML =
+      '<h1>卓也內訓　AI實戰進階班</h1>' +
+      '<p class="lede">10/2（五）課前問卷，想先了解大家目前的狀況，讓課程深淺、進度安排更貼近實際需求。</p>' +
+      '<div class="note">' +
+      '<p>一共十二題，大約三到五分鐘可以填完。</p>' +
+      '<p>這份問卷採實名制，第一題會請你填姓名。</p>' +
+      '<p>沒有標準答案，照實填就好，勾「完全不會」對備課最有幫助。</p>' +
+      '</div>' +
+      '<button class="btn" id="start" style="width:100%">開始填寫</button>';
+    on("start", function(){ step = 0; render(); });
+  }
+
+  function isAnswered(q){
+    if (q.type === "text_required") return answers[q.id].trim().length > 0;
+    if (q.type === "text") return true;
+    return answers[q.id].length > 0;
+  }
+
+  function renderQuestion(q){
+    topBar.hidden = false; navBar.hidden = false;
+    progressEl.style.width = (step / QUESTIONS.length * 100) + "%";
+    countEl.textContent = "第 " + (step + 1) + " 題　共 " + QUESTIONS.length + " 題";
+
+    var html = '<h2 class="q">' + esc(q.q) + '</h2>';
+    if (q.hint) html += '<p class="hint">' + esc(q.hint) + '</p>';
+
+    if (q.type === "text" || q.type === "text_required"){
+      if (q.type === "text_required"){
+        html += '<input type="text" class="mainfield" id="mainfield" placeholder="請輸入姓名" value="' + esc(answers[q.id]) + '">';
+      } else {
+        html += '<textarea id="freetext" placeholder="想到什麼寫什麼">' + esc(answers[q.id]) + '</textarea>';
+      }
+    } else {
+      html += '<div class="opts">';
+      for (var i = 0; i < q.opts.length; i++){
+        var picked = answers[q.id].indexOf(q.opts[i]) > -1;
+        html += '<div class="opt' + (q.type === "single" ? " round" : "") + (picked ? " on" : "") +
+                '" tabindex="0" role="button" data-i="' + i + '">' +
+                '<span class="box"></span><span>' + esc(q.opts[i]) + '</span></div>';
+        if (q.sub && q.opts[i] === q.sub.trigger && picked){
+          html += '<div class="subfield"><label style="display:block;margin-bottom:6px;color:var(--muted);font-size:15px">' +
+                  esc(q.sub.label) + '</label><input type="text" id="subinput" placeholder="' +
+                  esc(q.sub.placeholder || "") + '" value="' + esc(subAnswers[q.id] || "") + '"></div>';
+        }
+      }
+      html += '</div>';
+    }
+    appEl.innerHTML = html;
+
+    if (q.type === "text_required"){
+      var mf = document.getElementById("mainfield");
+      mf.oninput = function(e){ answers[q.id] = e.target.value; updateNextState(q); };
+      mf.focus();
+    } else if (q.type === "text"){
+      document.getElementById("freetext").oninput = function(e){ answers[q.id] = e.target.value; };
+    } else {
+      var nodes = appEl.querySelectorAll(".opt");
+      for (var j = 0; j < nodes.length; j++){
+        (function(el){
+          function toggle(){
+            var val = q.opts[parseInt(el.getAttribute("data-i"), 10)];
+            if (q.type === "single"){
+              answers[q.id] = [val];
+            } else {
+              var list = answers[q.id], at = list.indexOf(val);
+              if (at > -1) list.splice(at, 1);
+              else if (!q.max || list.length < q.max) list.push(val);
+              else return;
+            }
+            renderQuestion(q);
+          }
+          el.onclick = toggle;
+          el.onkeydown = function(e){ if (e.key === " " || e.key === "Enter"){ e.preventDefault(); toggle(); } };
+        })(nodes[j]);
+      }
+      var sub = document.getElementById("subinput");
+      if (sub){
+        sub.oninput = function(e){ subAnswers[q.id] = e.target.value; };
+        sub.onclick = function(e){ e.stopPropagation(); };
+        sub.parentElement.onclick = function(e){ e.stopPropagation(); };
+      }
+    }
+
+    var last = step === QUESTIONS.length - 1;
+    navInner.innerHTML =
+      (step > 0 ? '<button class="btn ghost" id="back">上一題</button>' : "") +
+      '<button class="btn" id="next">' + (last ? "送出" : "下一題") + '</button>';
+    on("back", function(){ step--; render(); });
+    var nextBtn = on("next", function(){ if (last){ step = QUESTIONS.length; render(); } else { step++; render(); } });
+    updateNextState(q);
+  }
+
+  function updateNextState(q){
+    var nextBtn = document.getElementById("next");
+    if (!nextBtn) return;
+    if (q.type === "text_required"){
+      nextBtn.disabled = !isAnswered(q);
+    } else {
+      nextBtn.disabled = false;
+    }
+  }
+
+  function answerText(){
+    var out = ["【卓也內訓　AI實戰進階班　課前問卷】"];
+    for (var i = 0; i < QUESTIONS.length; i++){
+      var q = QUESTIONS[i];
+      var v;
+      if (q.type === "text" || q.type === "text_required") v = answers[q.id] || "";
+      else v = answers[q.id].join("、");
+      if (!v) v = q.type==="text_required" ? "" : "（沒有勾選）";
+      out.push(""); out.push((i + 1) + ". " + q.q); out.push(v);
+      if (q.sub && subAnswers[q.id]){
+        out.push("　└ " + q.sub.label + "：" + subAnswers[q.id]);
+      }
+    }
+    return out.join("\n");
+  }
+
+  function payload(){
+    var p = { _subject: "卓也內訓課前問卷　新回覆", _template: "table", _captcha: "false", _cc: "wanliutai0@gmail.com" };
+    for (var i = 0; i < QUESTIONS.length; i++){
+      var q = QUESTIONS[i];
+      var v;
+      if (q.type === "text" || q.type === "text_required") v = answers[q.id] || "";
+      else v = answers[q.id].join("、");
+      var label = (i + 1) + ". " + q.q;
+      if (q.sub && subAnswers[q.id]) v += "（" + q.sub.label + "：" + subAnswers[q.id] + "）";
+      p[label] = v || (q.type==="text_required" ? "" : "（沒有勾選）");
+    }
+    return p;
+  }
+
+  function renderSending(){
+    topBar.hidden = true; navBar.hidden = true;
+    appEl.innerHTML = '<div class="done"><h2>送出中</h2><p class="lede">請稍等幾秒鐘，不要關掉這個畫面。</p></div>';
+
+    var done = false;
+    var timer = setTimeout(function(){ if (!done){ done = true; renderFallback(); } }, 12000);
+
+    fetch(ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify(payload())
+    }).then(function(r){ return r.json(); }).then(function(d){
+      if (done) return;
+      done = true; clearTimeout(timer);
+      if (d && (d.success === true || d.success === "true")) renderDone();
+      else renderFallback();
+    }).catch(function(){
+      if (done) return;
+      done = true; clearTimeout(timer);
+      renderFallback();
+    });
+  }
+
+  function renderDone(){
+    appEl.innerHTML = '<div class="done"><div class="tick">\u2713</div>' +
+      '<h2>送出完成</h2>' +
+      '<p class="lede">謝謝你，10/2 見。這個畫面可以直接關掉。</p></div>';
+  }
+
+  function renderFallback(){
+    appEl.innerHTML = '<h1>送不出去</h1>' +
+      '<p class="lede">可能是網路不穩。請用下面任一種方式把答案交出去，內容都一樣。</p>' +
+      '<button class="btn" id="retry" style="width:100%">再送出一次</button><p></p>' +
+      '<button class="btn" id="lineBtn" style="width:100%;flex:none">用 LINE 傳給講師</button><p></p>' +
+      '<button class="btn ghost" id="copyBtn" style="width:100%;flex:none">複製文字自己貼</button>' +
+      '<div id="fallbackBox"></div>';
+    on("retry", function(){ renderSending(); });
+    on("lineBtn", function(){
+      window.location.href = "https://line.me/R/msg/text/?" + encodeURIComponent(answerText());
+    });
+    on("copyBtn", function(){
+      var t = answerText();
+      if (navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(t).then(function(){ alert("已複製，貼到 LINE 傳給講師就可以了"); }, function(){ showBox(t); });
+      } else { showBox(t); }
+    });
+    function showBox(t){
+      document.getElementById("fallbackBox").innerHTML =
+        '<p class="hint" style="margin-top:20px">長按下面的文字全選複製，再貼到 LINE。</p>' +
+        '<textarea id="ta" style="min-height:240px">' + esc(t) + '</textarea>';
+      var ta = document.getElementById("ta"); ta.focus(); ta.select();
+    }
+  }
+
+  render();
+})();
+</script>
+</body>
+</html>
